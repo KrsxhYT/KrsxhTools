@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Info - KrsxhTools</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">KrsxhTools</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="number.html">Number Info</a></li>
+                    <li><a href="device.html" class="active">Device Info</a></li>
+                    <li><a href="ipinfo.html">IP Info</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <h2 class="section-title">Device Information</h2>
+            <div class="tool-container">
+                <button class="btn" id="getDeviceInfo">Get My Device Info</button>
+                
+                <div class="result-card" id="deviceResult" style="display: none;">
+                    <h3>Device Information</h3>
+                    
+                    <div class="ip-card">
+                        <h4>IP Addresses</h4>
+                        <div class="info-item">
+                            <span class="info-label">IPv4 Address:</span>
+                            <span class="info-value" id="ipv4Address">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">IPv6 Address:</span>
+                            <span class="info-value" id="ipv6Address">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Browser:</span>
+                        <span class="info-value" id="deviceBrowser">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Operating System:</span>
+                        <span class="info-value" id="deviceOS">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Screen Resolution:</span>
+                        <span class="info-value" id="deviceScreen">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Language:</span>
+                        <span class="info-value" id="deviceLanguage">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Platform:</span>
+                        <span class="info-value" id="devicePlatform">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">User Agent:</span>
+                        <span class="info-value" id="deviceUserAgent">-</span>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-share" id="shareDeviceBtn">Share Result</button>
+                        <button class="btn btn-download" id="downloadDeviceBtn">Download as PNG</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="number.html">Number Info</a></li>
+                <li><a href="device.html">Device Info</a></li>
+                <li><a href="ipinfo.html">IP Info</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+            <p class="copyright">© 2023 KrsxhTools. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/device.js"></script>
+    <script src="assets/js/share.js"></script>
+</body>
+</html>
