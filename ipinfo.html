@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Info - KrsxhTools</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">KrsxhTools</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="number.html">Number Info</a></li>
+                    <li><a href="device.html">Device Info</a></li>
+                    <li><a href="ipinfo.html" class="active">IP Info</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <h2 class="section-title">IP Information</h2>
+            <div class="tool-container">
+                <div class="input-group">
+                    <label for="ipInput">Enter IP Address:</label>
+                    <input type="text" id="ipInput" placeholder="e.g., 8.8.8.8 or 2001:4860:4860::8888">
+                </div>
+                <button class="btn" id="getIpInfo">Get IP Info</button>
+                <button class="btn btn-secondary" id="getMyIpInfo">Get My IP Info</button>
+                
+                <div class="result-card" id="ipResult" style="display: none;">
+                    <h3>IP Information</h3>
+                    <div class="info-item">
+                        <span class="info-label">IP Address:</span>
+                        <span class="info-value" id="ipAddress">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Country:</span>
+                        <span class="info-value" id="ipCountry">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Region:</span>
+                        <span class="info-value" id="ipRegion">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">City:</span>
+                        <span class="info-value" id="ipCity">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">ISP:</span>
+                        <span class="info-value" id="ipISP">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Timezone:</span>
+                        <span class="info-value" id="ipTimezone">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Coordinates:</span>
+                        <span class="info-value" id="ipCoordinates">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Organization:</span>
+                        <span class="info-value" id="ipOrg">-</span>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-share" id="shareIpBtn">Share Result</button>
+                        <button class="btn btn-download" id="downloadIpBtn">Download as PNG</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="number.html">Number Info</a></li>
+                <li><a href="device.html">Device Info</a></li>
+                <li><a href="ipinfo.html">IP Info</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+            <p class="copyright">© 2023 KrsxhTools. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/ipinfo.js"></script>
+    <script src="assets/js/share.js"></script>
+</body>
+</html>
