@@ -25,4 +25,35 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Check for shared results in URL
+    checkSharedResults();
 });
+
+function checkSharedResults() {
+    const path = window.location.pathname;
+    const parts = path.split('/');
+    
+    if (parts.length >= 3) {
+        const tool = parts[1];
+        const result = decodeURIComponent(parts[2]);
+        
+        switch(tool) {
+            case 'number':
+                document.getElementById('numberInput').value = result;
+                document.getElementById('getNumberInfo').click();
+                break;
+            case 'device':
+                // Device info is auto-generated, just show results
+                document.getElementById('getDeviceInfo').click();
+                break;
+            case 'ip':
+                document.getElementById('ipInput').value = result;
+                document.getElementById('getIpInfo').click();
+                break;
+        }
+        
+        // Clean URL without reload
+        window.history.replaceState({}, document.title, '/' + tool);
+    }
+}
