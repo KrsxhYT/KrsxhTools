@@ -33,13 +33,22 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const API_URL = `https://instagram-info.rakibsarvar12.workers.dev/info?username=${encodeURIComponent(username)}`;
             
-            const response = await fetch(API_URL);
+            console.log('Fetching Instagram info from:', API_URL);
+            
+            const response = await fetch(API_URL, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'User-Agent': 'KrsxhTools/1.0'
+                }
+            });
             
             if (!response.ok) {
-                throw new Error(`API returned ${response.status}`);
+                throw new Error(`API returned ${response.status}: ${response.statusText}`);
             }
             
             const data = await response.json();
+            console.log('Instagram API response:', data);
             
             if (data.error) {
                 throw new Error(data.error);
@@ -51,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
         } catch (error) {
             console.error('Error fetching Instagram info:', error);
-            showNotification('❌ Failed to fetch Instagram info. Please try again.');
+            showNotification('❌ Failed to fetch Instagram info: ' + error.message, 'error');
         } finally {
             getInstagramInfoBtn.textContent = 'Get Instagram Info';
             getInstagramInfoBtn.disabled = false;
@@ -69,8 +78,11 @@ document.addEventListener('DOMContentLoaded', function() {
             profileImg.alt = `${data.username} profile picture`;
             profileImg.style.cssText = `
                 width: 80px; height: 80px; border-radius: 50%; margin-right: 15px;
-                border: 3px solid #4a6cf7;
+                border: 3px solid #E4405F;
             `;
+            profileImg.onerror = function() {
+                this.style.display = 'none';
+            };
             profileHeader.appendChild(profileImg);
         }
         
@@ -101,33 +113,44 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('igVerified').textContent = data.verified ? '✅ Yes' : '❌ No';
         document.getElementById('igExternalUrl').textContent = data.external_url || 'Not available';
         
-        // Add verification badge
+        // Add verification badge if verified
         if (data.verified) {
             const verifiedBadge = document.createElement('span');
             verifiedBadge.textContent = ' ✅';
             verifiedBadge.title = 'Verified Account';
+            verifiedBadge.style.cssText = 'color: #3897f0; margin-left: 5px;';
             nameElement.appendChild(verifiedBadge);
         }
         
         instagramResult.style.display = 'block';
-        instagramResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Scroll to results smoothly
+        setTimeout(() => {
+            instagramResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
     }
     
     function formatNumber(num) {
-        if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-        if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(1) + 'M';
+        } else if (num >= 1000) {
+            return (num / 1000).toFixed(1) + 'K';
+        }
         return num.toString();
     }
     
-    function showNotification(message) {
+    function showNotification(message, type = 'success') {
         const existingNotification = document.querySelector('.instagram-notification');
         if (existingNotification) existingNotification.remove();
         
         const notification = document.createElement('div');
         notification.className = 'instagram-notification';
         notification.textContent = message;
+        
+        const backgroundColor = type === 'success' ? '#28a745' : '#dc3545';
+        
         notification.style.cssText = `
-            position: fixed; top: 20px; right: 20px; background: #28a745; color: white;
+            position: fixed; top: 20px; right: 20px; background: ${backgroundColor}; color: white;
             padding: 12px 20px; border-radius: 5px; z-index: 10000; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             animation: slideIn 0.3s ease;
         `;
