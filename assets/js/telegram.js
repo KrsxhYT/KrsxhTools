@@ -33,13 +33,22 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const API_URL = `https://telegram-user-info.rakibsarvar12.workers.dev/?username=${encodeURIComponent(username)}`;
             
-            const response = await fetch(API_URL);
+            console.log('Fetching Telegram info from:', API_URL);
+            
+            const response = await fetch(API_URL, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'User-Agent': 'KrsxhTools/1.0'
+                }
+            });
             
             if (!response.ok) {
-                throw new Error(`API returned ${response.status}`);
+                throw new Error(`API returned ${response.status}: ${response.statusText}`);
             }
             
             const data = await response.json();
+            console.log('Telegram API response:', data);
             
             if (data.status !== 'success') {
                 throw new Error('User not found or API error');
@@ -51,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
         } catch (error) {
             console.error('Error fetching Telegram info:', error);
-            showNotification('❌ Failed to fetch Telegram info. User may not exist.');
+            showNotification('❌ Failed to fetch Telegram info: ' + error.message, 'error');
         } finally {
             getTelegramInfoBtn.textContent = 'Get Telegram Info';
             getTelegramInfoBtn.disabled = false;
@@ -71,6 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 width: 80px; height: 80px; border-radius: 50%; margin-right: 15px;
                 border: 3px solid #0088cc;
             `;
+            profileImg.onerror = function() {
+                this.style.display = 'none';
+            };
             profileHeader.appendChild(profileImg);
         }
         
@@ -79,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         profileInfo.style.cssText = 'display: flex; flex-direction: column; justify-content: center;';
         
         const nameElement = document.createElement('h4');
-        nameElement.innerHTML = data.title || data.username;
+        nameElement.innerHTML = decodeHtmlEntities(data.title || data.username);
         nameElement.style.cssText = 'margin: 0 0 5px 0; color: var(--primary); font-size: 1.2rem;';
         
         const usernameElement = document.createElement('p');
@@ -92,38 +104,38 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update information fields
         document.getElementById('tgUsername').textContent = `@${data.username}`;
-        document.getElementById('tgFirstName').textContent = data.title ? data.title.split(' ')[0] : 'Not available';
-        document.getElementById('tgLastName').textContent = data.title ? data.title.split(' ').slice(1).join(' ') : 'Not available';
-        document.getElementById('tgBio').textContent = data.description ? decodeHtmlEntities(data.description) : 'No bio available';
-        document.getElementById('tgUserId').textContent = data.id || 'Not available';
-        document.getElementById('tgDcId').textContent = data.dc_id || 'Not available';
-        document.getElementById('tgPhone').textContent = data.phone || 'Hidden';
-        document.getElementById('tgLanguage').textContent = data.lang_code || 'Not available';
-        document.getElementById('tgPremium').textContent = data.premium ? '✅ Yes' : '❌ No';
-        document.getElementById('tgVerified').textContent = data.verified ? '✅ Yes' : '❌ No';
-        document.getElementById('tgRestricted').textContent = data.restricted ? '✅ Yes' : '❌ No';
-        document.getElementById('tgScam').textContent = data.scam ? '✅ Yes' : '❌ No';
-        document.getElementById('tgFake').textContent = data.fake ? '✅ Yes' : '❌ No';
+        document.getElementById('tgTitle').innerHTML = decodeHtmlEntities(data.title || 'Not available');
+        document.getElementById('tgDescription').innerHTML = decodeHtmlEntities(data.description || 'No description available');
+        document.getElementById('tgSiteName').textContent = data.site_name || 'Telegram';
+        document.getElementById('tgStatus').textContent = data.status === 'success' ? '✅ Active' : '❌ Not found';
         
         telegramResult.style.display = 'block';
-        telegramResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Scroll to results smoothly
+        setTimeout(() => {
+            telegramResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
     }
     
     function decodeHtmlEntities(text) {
+        if (!text) return '';
         const textArea = document.createElement('textarea');
         textArea.innerHTML = text;
         return textArea.value;
     }
     
-    function showNotification(message) {
+    function showNotification(message, type = 'success') {
         const existingNotification = document.querySelector('.telegram-notification');
         if (existingNotification) existingNotification.remove();
         
         const notification = document.createElement('div');
         notification.className = 'telegram-notification';
         notification.textContent = message;
+        
+        const backgroundColor = type === 'success' ? '#28a745' : '#dc3545';
+        
         notification.style.cssText = `
-            position: fixed; top: 20px; right: 20px; background: #28a745; color: white;
+            position: fixed; top: 20px; right: 20px; background: ${backgroundColor}; color: white;
             padding: 12px 20px; border-radius: 5px; z-index: 10000; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             animation: slideIn 0.3s ease;
         `;
