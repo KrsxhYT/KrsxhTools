@@ -1,10 +1,12 @@
-// Device Info Tool JavaScript - 100% Working
+// Device Info Tool JavaScript - 100% Real Working
 document.addEventListener('DOMContentLoaded', function() {
     const getDeviceInfoBtn = document.getElementById('getDeviceInfo');
     const deviceResult = document.getElementById('deviceResult');
     
     // Auto-get device info on page load
-    getDeviceInfoBtn.click();
+    setTimeout(() => {
+        getDeviceInfoBtn.click();
+    }, 1000);
     
     getDeviceInfoBtn.addEventListener('click', function() {
         getDeviceInfoBtn.textContent = 'Getting Info...';
@@ -15,10 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     async function getDeviceInformation() {
         try {
-            const [ipData, browserInfo, screenInfo] = await Promise.all([
+            const [ipData, browserInfo, screenInfo, connectionInfo] = await Promise.all([
                 getIPAddresses(),
                 getDetailedBrowserInfo(),
-                getScreenInfo()
+                getScreenInfo(),
+                getConnectionInfo()
             ]);
             
             const deviceData = {
@@ -35,7 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 userAgent: navigator.userAgent,
                 cpuCores: navigator.hardwareConcurrency || 'Unknown',
                 deviceMemory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'Unknown',
-                connection: getConnectionInfo(),
+                connection: connectionInfo.effectiveType,
+                connectionSpeed: connectionInfo.downlink,
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                 cookies: navigator.cookieEnabled ? 'Enabled' : 'Disabled',
                 javaScript: 'Enabled',
@@ -47,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
         } catch (error) {
             console.error('Error getting device info:', error);
-            alert('Error getting device information. Please try again.');
+            showNotification('❌ Error getting device information');
         } finally {
             getDeviceInfoBtn.textContent = 'Refresh Device Info';
             getDeviceInfoBtn.disabled = false;
@@ -161,56 +165,37 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('deviceLanguage').textContent = data.language;
         document.getElementById('devicePlatform').textContent = data.platform;
         document.getElementById('deviceUserAgent').textContent = data.userAgent;
-        
-        // Add additional info elements if they don't exist
-        let additionalInfo = `
-            <div class="info-item">
-                <span class="info-label">Color Depth:</span>
-                <span class="info-value">${data.colorDepth}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">CPU Cores:</span>
-                <span class="info-value">${data.cpuCores}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Device Memory:</span>
-                <span class="info-value">${data.deviceMemory}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Connection:</span>
-                <span class="info-value">${data.connection.effectiveType}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Timezone:</span>
-                <span class="info-value">${data.timezone}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Cookies:</span>
-                <span class="info-value">${data.cookies}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">JavaScript:</span>
-                <span class="info-value">${data.javaScript}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Status:</span>
-                <span class="info-value">${data.online}</span>
-            </div>
-        `;
-        
-        const existingAdditional = document.querySelector('.additional-info');
-        if (existingAdditional) {
-            existingAdditional.innerHTML = additionalInfo;
-        } else {
-            const additionalDiv = document.createElement('div');
-            additionalDiv.className = 'additional-info';
-            additionalDiv.innerHTML = additionalInfo;
-            document.querySelector('.action-buttons').insertAdjacentElement('beforebegin', additionalDiv);
-        }
+        document.getElementById('deviceCpuCores').textContent = data.cpuCores;
+        document.getElementById('deviceMemory').textContent = data.deviceMemory;
+        document.getElementById('deviceConnection').textContent = `${data.connection} (${data.connectionSpeed})`;
+        document.getElementById('deviceTimezone').textContent = data.timezone;
+        document.getElementById('deviceCookies').textContent = data.cookies;
+        document.getElementById('deviceJavaScript').textContent = data.javaScript;
+        document.getElementById('deviceOnline').textContent = data.online;
         
         deviceResult.style.display = 'block';
-        
-        // Scroll to results
         deviceResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        showNotification('✅ Device information retrieved successfully!');
+    }
+    
+    function showNotification(message) {
+        const existingNotification = document.querySelector('.device-notification');
+        if (existingNotification) existingNotification.remove();
+        
+        const notification = document.createElement('div');
+        notification.className = 'device-notification';
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed; top: 20px; right: 20px; background: #28a745; color: white;
+            padding: 12px 20px; border-radius: 5px; z-index: 10000; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
     }
 });
