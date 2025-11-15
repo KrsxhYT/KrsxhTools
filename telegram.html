@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Info - KrsxhTools</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">KrsxhTools</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="number.html">Number Info</a></li>
+                    <li><a href="device.html">Device Info</a></li>
+                    <li><a href="ipinfo.html">IP Info</a></li>
+                    <li><a href="instagram.html">Instagram Info</a></li>
+                    <li><a href="telegram.html" class="active">Telegram Info</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <h2 class="section-title">Telegram Information</h2>
+            <div class="tool-container">
+                <div class="input-group">
+                    <label for="telegramUsername">Enter Telegram Username:</label>
+                    <input type="text" id="telegramUsername" placeholder="e.g., KrsxhNvrDie, telegram" maxlength="32">
+                </div>
+                <button class="btn" id="getTelegramInfo">Get Telegram Info</button>
+                
+                <div class="result-card" id="telegramResult" style="display: none;">
+                    <h3>Telegram Information</h3>
+                    <div class="profile-header" id="tgProfileHeader">
+                        <!-- Profile image and basic info will be inserted here -->
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Username:</span>
+                        <span class="info-value" id="tgUsername">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Title:</span>
+                        <span class="info-value" id="tgTitle">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Description:</span>
+                        <span class="info-value" id="tgDescription">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Site Name:</span>
+                        <span class="info-value" id="tgSiteName">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Status:</span>
+                        <span class="info-value" id="tgStatus">-</span>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-share" id="shareTelegramBtn">Share Result</button>
+                        <button class="btn btn-download" id="downloadTelegramBtn">Download as PNG</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="number.html">Number Info</a></li>
+                <li><a href="device.html">Device Info</a></li>
+                <li><a href="ipinfo.html">IP Info</a></li>
+                <li><a href="instagram.html">Instagram Info</a></li>
+                <li><a href="telegram.html">Telegram Info</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+            <p class="copyright">© 2023 KrsxhTools. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/telegram.js"></script>
+    <script src="assets/js/share.js"></script>
+</body>
+</html>
