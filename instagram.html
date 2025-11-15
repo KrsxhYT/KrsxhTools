@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Info - KrsxhTools</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">KrsxhTools</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="number.html">Number Info</a></li>
+                    <li><a href="device.html">Device Info</a></li>
+                    <li><a href="ipinfo.html">IP Info</a></li>
+                    <li><a href="instagram.html" class="active">Instagram Info</a></li>
+                    <li><a href="telegram.html">Telegram Info</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <h2 class="section-title">Instagram Information</h2>
+            <div class="tool-container">
+                <div class="input-group">
+                    <label for="instagramUsername">Enter Instagram Username:</label>
+                    <input type="text" id="instagramUsername" placeholder="e.g., thekrsxh, instagram" maxlength="30">
+                </div>
+                <button class="btn" id="getInstagramInfo">Get Instagram Info</button>
+                
+                <div class="result-card" id="instagramResult" style="display: none;">
+                    <h3>Instagram Information</h3>
+                    <div class="profile-header" id="profileHeader">
+                        <!-- Profile image and basic info will be inserted here -->
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Username:</span>
+                        <span class="info-value" id="igUsername">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Full Name:</span>
+                        <span class="info-value" id="igFullName">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Bio:</span>
+                        <span class="info-value" id="igBio">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Followers:</span>
+                        <span class="info-value" id="igFollowers">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Following:</span>
+                        <span class="info-value" id="igFollowing">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Posts:</span>
+                        <span class="info-value" id="igPosts">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Private Account:</span>
+                        <span class="info-value" id="igPrivate">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Verified:</span>
+                        <span class="info-value" id="igVerified">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">External URL:</span>
+                        <span class="info-value" id="igExternalUrl">-</span>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-share" id="shareInstagramBtn">Share Result</button>
+                        <button class="btn btn-download" id="downloadInstagramBtn">Download as PNG</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="number.html">Number Info</a></li>
+                <li><a href="device.html">Device Info</a></li>
+                <li><a href="ipinfo.html">IP Info</a></li>
+                <li><a href="instagram.html">Instagram Info</a></li>
+                <li><a href="telegram.html">Telegram Info</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+            <p class="copyright">© 2023 KrsxhTools. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/instagram.js"></script>
+    <script src="assets/js/share.js"></script>
+</body>
+</html>
