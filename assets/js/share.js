@@ -25,6 +25,18 @@ document.addEventListener('DOMContentLoaded', function() {
         shareIpBtn.addEventListener('click', shareIPResult);
     }
     
+    // Instagram Info Share
+    const shareInstagramBtn = document.getElementById('shareInstagramBtn');
+    if (shareInstagramBtn) {
+        shareInstagramBtn.addEventListener('click', shareInstagramResult);
+    }
+    
+    // Telegram Info Share
+    const shareTelegramBtn = document.getElementById('shareTelegramBtn');
+    if (shareTelegramBtn) {
+        shareTelegramBtn.addEventListener('click', shareTelegramResult);
+    }
+    
     // Download buttons
     const downloadNumberBtn = document.getElementById('downloadNumberBtn');
     if (downloadNumberBtn) {
@@ -41,28 +53,38 @@ document.addEventListener('DOMContentLoaded', function() {
         downloadIpBtn.addEventListener('click', () => downloadResult('ip'));
     }
     
+    const downloadInstagramBtn = document.getElementById('downloadInstagramBtn');
+    if (downloadInstagramBtn) {
+        downloadInstagramBtn.addEventListener('click', () => downloadResult('instagram'));
+    }
+    
+    const downloadTelegramBtn = document.getElementById('downloadTelegramBtn');
+    if (downloadTelegramBtn) {
+        downloadTelegramBtn.addEventListener('click', () => downloadResult('telegram'));
+    }
+    
     function shareNumberResult() {
         if (!window.lastNumberResult) {
-            alert('No number information to share. Please get number info first.');
+            showNotification('❌ No number information to share');
             return;
         }
         
         const result = window.lastNumberResult;
         const shareText = `🔢 Number Information from KrsxhTools:\n\n` +
-                         `📱 Phone: ${result.international_format || result.number}\n` +
-                         `🌍 Country: ${result.country_name}\n` +
+                         `📱 Phone: ${result.number}\n` +
+                         `🌍 Country: ${result.country}\n` +
                          `📞 Carrier: ${result.carrier}\n` +
                          `📍 Location: ${result.location}\n` +
                          `📊 Type: ${result.line_type}\n` +
                          `✅ Valid: ${result.valid ? 'Yes' : 'No'}\n\n` +
-                         `🔗 Check it out: ${generateShareURL('number', result.international_format || result.number)}`;
+                         `🔗 Check it out: ${generateShareURL('number', result.number)}`;
         
         shareContent(shareText, 'Number Information');
     }
     
     function shareDeviceResult() {
         if (!window.lastDeviceResult) {
-            alert('No device information to share. Please get device info first.');
+            showNotification('❌ No device information to share');
             return;
         }
         
@@ -81,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function shareIPResult() {
         if (!window.lastIPResult) {
-            alert('No IP information to share. Please get IP info first.');
+            showNotification('❌ No IP information to share');
             return;
         }
         
@@ -91,11 +113,45 @@ document.addEventListener('DOMContentLoaded', function() {
                          `🌍 Country: ${result.country}\n` +
                          `🏙️ City: ${result.city}\n` +
                          `🏢 ISP: ${result.isp}\n` +
-                         `⏰ Timezone: ${result.timezone}\n` +
-                         `📍 Coordinates: ${result.latitude}, ${result.longitude}\n\n` +
+                         `⏰ Timezone: ${result.timezone}\n\n` +
                          `🔗 Check it out: ${generateShareURL('ip', result.ip)}`;
         
         shareContent(shareText, 'IP Information');
+    }
+    
+    function shareInstagramResult() {
+        if (!window.lastInstagramResult) {
+            showNotification('❌ No Instagram information to share');
+            return;
+        }
+        
+        const result = window.lastInstagramResult;
+        const shareText = `📷 Instagram Information from KrsxhTools:\n\n` +
+                         `👤 Username: @${result.username}\n` +
+                         `📛 Full Name: ${result.name || 'Not available'}\n` +
+                         `📝 Bio: ${result.bio || 'No bio'}\n` +
+                         `👥 Followers: ${formatNumber(result.followers)}\n` +
+                         `📸 Posts: ${formatNumber(result.posts)}\n` +
+                         `✅ Verified: ${result.verified ? 'Yes' : 'No'}\n\n` +
+                         `🔗 Check it out: ${generateShareURL('instagram', result.username)}`;
+        
+        shareContent(shareText, 'Instagram Information');
+    }
+    
+    function shareTelegramResult() {
+        if (!window.lastTelegramResult) {
+            showNotification('❌ No Telegram information to share');
+            return;
+        }
+        
+        const result = window.lastTelegramResult;
+        const shareText = `✈️ Telegram Information from KrsxhTools:\n\n` +
+                         `👤 Username: @${result.username}\n` +
+                         `📛 Title: ${result.title}\n` +
+                         `📝 Bio: ${result.description || 'No bio'}\n\n` +
+                         `🔗 Check it out: ${generateShareURL('telegram', result.username)}`;
+        
+        shareContent(shareText, 'Telegram Information');
     }
     
     function generateShareURL(tool, result) {
@@ -105,7 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function shareContent(text, title) {
         if (navigator.share) {
-            // Use Web Share API if available
             navigator.share({
                 title: title,
                 text: text
@@ -114,7 +169,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 fallbackShare(text);
             });
         } else {
-            // Fallback to clipboard
             fallbackShare(text);
         }
     }
@@ -124,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('✅ Result copied to clipboard!');
         }).catch(err => {
             console.error('Failed to copy: ', err);
-            // Last resort - show text in prompt
             prompt('Copy this result to share:', text);
         });
     }
@@ -132,19 +185,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function downloadResult(type) {
         const element = document.getElementById(`${type}Result`);
         if (!element) {
-            alert(`No ${type} result to download. Please get the information first.`);
+            showNotification(`❌ No ${type} result to download`);
             return;
         }
         
-        // Check if html2canvas is loaded
         if (typeof html2canvas === 'undefined') {
-            alert('Download feature is still loading. Please try again in a few seconds.');
+            showNotification('❌ Download feature is still loading');
             return;
         }
         
         showNotification('🔄 Generating PNG...');
         
-        // Add KrsxhTools branding to the card for download
         const originalHTML = element.innerHTML;
         const brandingHTML = `
             <div style="text-align: center; margin-bottom: 15px; padding: 10px; background: linear-gradient(135deg, #4a6cf7, #8a2be2); border-radius: 8px;">
@@ -165,10 +216,8 @@ document.addEventListener('DOMContentLoaded', function() {
             logging: false,
             backgroundColor: '#16213e'
         }).then(canvas => {
-            // Restore original content
             element.innerHTML = originalHTML;
             
-            // Create download link
             const link = document.createElement('a');
             link.download = `krsxhtools-${type}-result-${Date.now()}.png`;
             link.href = canvas.toDataURL('image/png', 0.9);
@@ -178,47 +227,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }).catch(error => {
             console.error('Error generating PNG:', error);
             element.innerHTML = originalHTML;
-            alert('Error generating PNG. Please try again.');
+            showNotification('❌ Error generating PNG');
         });
     }
     
+    function formatNumber(num) {
+        if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+        if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+        return num.toString();
+    }
+    
     function showNotification(message) {
-        // Remove existing notification
         const existingNotification = document.querySelector('.share-notification');
-        if (existingNotification) {
-            existingNotification.remove();
-        }
+        if (existingNotification) existingNotification.remove();
         
-        // Create new notification
         const notification = document.createElement('div');
         notification.className = 'share-notification';
         notification.textContent = message;
         notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #28a745;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 5px;
-            z-index: 10000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            position: fixed; top: 20px; right: 20px; background: #28a745; color: white;
+            padding: 12px 20px; border-radius: 5px; z-index: 10000; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             animation: slideIn 0.3s ease;
         `;
-        
-        // Add CSS animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-        `;
-        document.head.appendChild(style);
-        
         document.body.appendChild(notification);
         
-        // Auto remove after 3 seconds
         setTimeout(() => {
             notification.style.animation = 'slideOut 0.3s ease';
             setTimeout(() => notification.remove(), 300);
