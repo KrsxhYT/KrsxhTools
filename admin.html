@@ -16,6 +16,8 @@
                     <li><a href="number.html">Number Info</a></li>
                     <li><a href="device.html">Device Info</a></li>
                     <li><a href="ipinfo.html">IP Info</a></li>
+                    <li><a href="instagram.html">Instagram Info</a></li>
+                    <li><a href="telegram.html">Telegram Info</a></li>
                     <li><a href="admin.html" class="active">Admin</a></li>
                 </ul>
             </nav>
@@ -70,14 +72,17 @@
                 <div class="crypto-item">
                     <div class="crypto-label">USDT Wallet (ERC20):</div>
                     <div class="crypto-address">0x4e3848F44818E3C1583042944f39277772ec8889</div>
+                    <button class="btn-copy" data-address="0x4e3848F44818E3C1583042944f39277772ec8889">Copy</button>
                 </div>
                 <div class="crypto-item">
                     <div class="crypto-label">Bitcoin (BTC):</div>
                     <div class="crypto-address">bc1qaz36eau875wqt252tsm8g3sl5rpkqndzqmgmn0</div>
+                    <button class="btn-copy" data-address="bc1qaz36eau875wqt252tsm8g3sl5rpkqndzqmgmn0">Copy</button>
                 </div>
                 <div class="crypto-item">
                     <div class="crypto-label">Toncoin (TON):</div>
                     <div class="crypto-address">UQCBbUw4nBb60E4vHI18t7-H_jUgC0EJm5kwnpa1eQtVHRIu</div>
+                    <button class="btn-copy" data-address="UQCBbUw4nBb60E4vHI18t7-H_jUgC0EJm5kwnpa1eQtVHRIu">Copy</button>
                 </div>
             </div>
         </div>
@@ -90,6 +95,8 @@
                 <li><a href="number.html">Number Info</a></li>
                 <li><a href="device.html">Device Info</a></li>
                 <li><a href="ipinfo.html">IP Info</a></li>
+                <li><a href="instagram.html">Instagram Info</a></li>
+                <li><a href="telegram.html">Telegram Info</a></li>
                 <li><a href="admin.html">Admin</a></li>
             </ul>
             <p class="copyright">© 2023 KrsxhTools. All rights reserved.</p>
@@ -97,5 +104,23 @@
     </footer>
 
     <script src="assets/js/main.js"></script>
+    <script>
+        // Copy crypto address functionality
+        document.querySelectorAll('.btn-copy').forEach(button => {
+            button.addEventListener('click', function() {
+                const address = this.getAttribute('data-address');
+                navigator.clipboard.writeText(address).then(() => {
+                    const originalText = this.textContent;
+                    this.textContent = 'Copied!';
+                    this.style.background = '#28a745';
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.background = '';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
